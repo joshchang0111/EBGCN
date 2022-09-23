@@ -4,6 +4,67 @@ import os
 
 cwd=os.getcwd()
 
+##################
+## Fixed 5-Fold ##
+##################
+## Ex. AARD, RumorV2
+def loadfoldlist(args, obj, fold, seed=2020):
+    random.seed(seed)
+
+    trainLabel = "{}/{}/split_{}/train.txt".format(args.data_root, obj, fold)
+    testLabel  = "{}/{}/split_{}/test.txt".format(args.data_root, obj, fold)
+    labelset_nonR, labelset_R = ['non-rumours', 'non-rumor'], ['rumours', 'rumor']
+    labelset_true, labelset_false, labelset_unv = ['true'], ['false'], ['unverified']
+    print("\nLoading tree label from split {}".format(fold))
+    
+    trainlist, testlist, labels = [], [], []
+    NR, R = 0, 0
+    TR, FR, UR = 0, 0, 0
+    for line in open(trainLabel):
+        eid, label = line.rstrip().split('\t')[0], line.rstrip().split('\t')[-1]
+        trainlist.append(eid)
+        labels.append(label)
+        if label in labelset_nonR:
+            NR += 1
+        elif label in labelset_R:
+            R += 1
+        elif label in labelset_true:
+            TR += 1
+        elif label in labelset_false:
+            FR += 1
+        elif label in labelset_unv:
+            UR += 1
+    assert (R + NR + TR + FR + UR) == len(trainlist)
+    print("TrainData | NR: {:3d}, R: {:3d}, TR: {:3d}, FR: {:3d}, UR: {:3d}".format(NR, R, TR, FR, UR))
+    
+    NR, R = 0, 0
+    TR, FR, UR = 0, 0, 0
+    for line in open(testLabel):
+        eid, label = line.rstrip().split('\t')[0], line.rstrip().split('\t')[-1]
+        testlist.append(eid)
+        labels.append(label)
+        if label in labelset_nonR:
+            NR += 1
+        elif label in labelset_R:
+            R += 1
+        elif label in labelset_true:
+            TR += 1
+        elif label in labelset_false:
+            FR += 1
+        elif label in labelset_unv:
+            UR += 1
+    assert (R + NR + TR + FR + UR) == len(testlist)
+    print("TestData  | NR: {:3d}, R: {:3d}, TR: {:3d}, FR: {:3d}, UR: {:3d}".format(NR, R, TR, FR, UR))
+
+    args.num_class = len(set(labels))
+
+    random.Random().shuffle(trainlist)
+    random.Random().shuffle(testlist)
+    return testlist, trainlist
+
+###################
+## Random 5-Fold ##
+###################
 def load5foldData(obj, shuffle_flag = True, seed=2020):
     random.seed(seed)
     if 'Twitter' in obj:

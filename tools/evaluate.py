@@ -1,6 +1,4 @@
-
-
-def evaluation3class(prediction, y):  # 4 dim
+def evaluation3class(prediction, y): # 3 dim
     TP1, FP1, FN1, TN1 = 0, 0, 0, 0
     TP2, FP2, FN2, TN2 = 0, 0, 0, 0
     TP3, FP3, FN3, TN3 = 0, 0, 0, 0
@@ -23,9 +21,8 @@ def evaluation3class(prediction, y):  # 4 dim
         if Act != 2 and Pre == 2: FP3 += 1
         if Act != 2 and Pre != 2: TN3 += 1
 
-
     ## print result
-    Acc_all = round(float(TP1 + TP2 + TP3 ) / float(len(y) ), 4)
+    Acc_all = round(float(TP1 + TP2 + TP3 ) / float(len(y)), 4)
     Acc1 = round(float(TP1 + TN1) / float(TP1 + TN1 + FN1 + FP1), 4)
     if (TP1 + FP1)==0:
         Prec1 =0
@@ -34,11 +31,11 @@ def evaluation3class(prediction, y):  # 4 dim
     if (TP1 + FN1 )==0:
         Recll1 =0
     else:
-        Recll1 = round(float(TP1) / float(TP1 + FN1 ), 4)
+        Recll1 = round(float(TP1) / float(TP1 + FN1), 4)
     if (Prec1 + Recll1 )==0:
         F1 =0
     else:
-        F1 = round(2 * Prec1 * Recll1 / (Prec1 + Recll1 ), 4)
+        F1 = round(2 * Prec1 * Recll1 / (Prec1 + Recll1), 4)
 
     Acc2 = round(float(TP2 + TN2) / float(TP2 + TN2 + FN2 + FP2), 4)
     if (TP2 + FP2)==0:
@@ -48,11 +45,11 @@ def evaluation3class(prediction, y):  # 4 dim
     if (TP2 + FN2 )==0:
         Recll2 =0
     else:
-        Recll2 = round(float(TP2) / float(TP2 + FN2 ), 4)
+        Recll2 = round(float(TP2) / float(TP2 + FN2), 4)
     if (Prec2 + Recll2 )==0:
         F2 =0
     else:
-        F2 = round(2 * Prec2 * Recll2 / (Prec2 + Recll2 ), 4)
+        F2 = round(2 * Prec2 * Recll2 / (Prec2 + Recll2), 4)
 
     Acc3 = round(float(TP3 + TN3) / float(TP3 + TN3 + FN3 + FP3), 4)
     if (TP3 + FP3)==0:
@@ -68,10 +65,7 @@ def evaluation3class(prediction, y):  # 4 dim
     else:
         F3 = round(2 * Prec3 * Recll3 / (Prec3 + Recll3), 4)
 
-
     return  Acc_all,Acc1, Prec1, Recll1, F1,Acc2, Prec2, Recll2, F2,Acc3, Prec3, Recll3, F3
-
-
 
 def evaluation4class(prediction, y):  # 4 dim
     TP1, FP1, FN1, TN1 = 0, 0, 0, 0

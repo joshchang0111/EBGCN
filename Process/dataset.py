@@ -7,7 +7,7 @@ from torch_geometric.data import Data
 
 
 class BiGraphDataset(Dataset):
-    def __init__(self, fold_x, treeDic,lower=2, upper=100000, tddroprate=0,budroprate=0,
+    def __init__(self, fold_x, treeDic, lower=2, upper=100000, tddroprate=0, budroprate=0,
                  data_path=os.path.join('..','..', 'data', 'Weibograph')):
         self.fold_x = list(filter(lambda id: id in treeDic and len(treeDic[id]) >= lower and len(treeDic[id]) <= upper, fold_x))
         self.treeDic = treeDic
