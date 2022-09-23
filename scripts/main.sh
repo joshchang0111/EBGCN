@@ -1,10 +1,10 @@
 if [ $(hostname) = "josh-System-Product-Name" ]; then
 	data_root="/mnt/hdd1/projects/BiGCN/dataset/processedV2"
-	output_root="/mnt/hdd1/projects/BiGCN"
+	output_root="/mnt/hdd1/projects/EBGCN"
 elif [ $(hostname) = "yisyuan-PC2" ]; then
 	export CUDA_VISIBLE_DEVICES=0
 	data_root="/home/joshchang/project/BiGCN/data/processedV2"
-	output_root="/home/joshchang/project/BiGCN/results"
+	output_root="/home/joshchang/project/EBGCN/results"
 fi
 
 ## Train EBGCN on my RumorV2 dataset
