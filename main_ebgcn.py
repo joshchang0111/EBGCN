@@ -187,8 +187,8 @@ if __name__ == '__main__':
 	# Parameters for the proposed model
 	parser.add_argument('--TDdroprate', type=float, default=0.2, metavar='TDdroprate', help='drop rate for edges in the top-down propagation graph')
 	parser.add_argument('--BUdroprate', type=float, default=0.2, metavar='BUdroprate', help='drop rate for edges in the bottom-up dispersion graph')
-	parser.add_argument('--edge_infer_td', action='store_true')#, default=False, help='edge inference in the top-down graph')
-	parser.add_argument('--edge_infer_bu', action='store_true')#, default=True, help='edge inference in the bottom-up graph')
+	parser.add_argument('--edge_infer_td', action='store_true', default=True, help='edge inference in the top-down graph')
+	parser.add_argument('--edge_infer_bu', action='store_true', default=True, help='edge inference in the bottom-up graph')
 	parser.add_argument('--edge_loss_td', type=float, default=0.2, metavar='edge_loss_td', help='a hyperparameter gamma to weight the unsupervised relation learning loss in the top-down propagation graph')
 	parser.add_argument('--edge_loss_bu', type=float, default=0.2, metavar='edge_loss_bu', help='a hyperparameter gamma to weight the unsupervised relation learning loss in the bottom-up dispersion graph')
 	parser.add_argument('--edge_num', type=int, default=2, metavar='edgenum', help='latent relation types T in the edge inference')
