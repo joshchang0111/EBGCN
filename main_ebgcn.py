@@ -210,6 +210,11 @@ if __name__ == '__main__':
 
 	init_seeds(seed=args.seed)
 
+	if not os.path.isfile("{}/result.tsv".format(args.output_root)):
+		with open("{}/result.tsv".format(args.output_root), "w") as fw:
+			fw.write("{:15s}\t{:5s}\t{:5s}\t{:10s}\t{:10s}\t{:10s}\t{:10s}\t{:10s}\t{:10s}\n".format(
+				"Dataset", "Iter", "Fold", "Accuracy", "F1-Macro", "F1-NR", "F1-FR", "F1-TR", "F1-UR"))
+
 	total_accs, total_NR_F1, total_FR_F1, total_TR_F1, total_UR_F1 = [], [], [], [], []
 	treeDic = loadTree(args, args.datasetname)
 
@@ -243,6 +248,12 @@ if __name__ == '__main__':
 				time() - fold_timestamp)
 			)
 
+			## Logging results of each fold
+			with open("{}/result.tsv".format(args.output_root), "a") as fw:
+				fw.write("{:15s}\t{:5d}\t{:5d}\t{:<10.4f}\t{:<10.4f}\t{:<10.4f}\t{:<10.4f}\t{:<10.4f}\t{:<10.4f}\n".format(
+					args.datasetname, iter, fold_idx, acc, (F1 + F2 + F3 + F4) / 4, F4, F1, F2, F3)
+				)
+
 		total_accs.append(np.mean(accs))
 		total_NR_F1.append(np.mean(NR_F1))
 		total_FR_F1.append(np.mean(FR_F1))
@@ -273,14 +284,10 @@ if __name__ == '__main__':
 	###########################
 	## NEW: Log Final Result ##
 	###########################
-	if not os.path.isfile("{}/result.tsv".format(args.output_root)):
-		with open("{}/result.tsv".format(args.output_root), "w") as fw:
-			fw.write("{:10s}\t{:10s}\t{:10s}\t{:10s}\t{:10s}\t{:10s}\t{:10s}\n".format(
-				"Dataset", "Accuracy", "F1-Macro", "F1-NR", "F1-FR", "F1-TR", "F1-UR"))
-
 	with open("{}/result.tsv".format(args.output_root), "a") as fw:
-		fw.write("{:10s}\t{:<10.4f}\t{:<10.4f}\t{:<10.4f}\t{:<10.4f}\t{:<10.4f}\t{:<10.4f}\n".format(
-				args.datasetname, sum(total_accs) / args.iterations, 
+		fw.write("{:10s}\t{:5s}\t{:5s}\t{:<10.4f}\t{:<10.4f}\t{:<10.4f}\t{:<10.4f}\t{:<10.4f}\t{:<10.4f}\n".format(
+				args.datasetname, "-", "Avg.",
+				sum(total_accs) / args.iterations, 
 				(sum(total_NR_F1) + sum(total_FR_F1) + sum(total_TR_F1) + sum(total_UR_F1)) / (args.num_class * args.iterations), 
 				sum(total_NR_F1) / args.iterations, 
 				sum(total_FR_F1) / args.iterations, 

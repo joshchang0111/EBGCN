@@ -95,6 +95,8 @@ class TDrumorGCN(th.nn.Module):
         b_bias = self.B_bias(x_ij)
         logit_mean = w_mean * sim_val + b_mean
         logit_var = th.log((sim_val ** 2) * th.exp(w_bias) + th.exp(b_bias))
+        logit_var = th.abs(logit_var) ## NEW
+        
         edge_y = th.normal(logit_mean, logit_var)
         edge_y = th.sigmoid(edge_y)
         edge_y = self.fc2(edge_y)
@@ -185,6 +187,7 @@ class BUrumorGCN(th.nn.Module):
         b_bias = self.B_bias(x_ij)
         logit_mean = w_mean * sim_val + b_mean
         logit_var = th.log((sim_val ** 2) * th.exp(w_bias) + th.exp(b_bias))
+        logit_var = th.abs(logit_var) ## NEW
 
         edge_y = th.normal(logit_mean, logit_var)
         edge_y = th.sigmoid(edge_y)
